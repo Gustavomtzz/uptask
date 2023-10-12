@@ -1,10 +1,10 @@
 <main class="contenedor">
+
     <div class="titulo">
-        <h1 class="nombre-pagina">UpTask</h1>
-        <p class="descripcion-pagina">Crea y Administra tus Proyectos</p>
+        <?php include_once __DIR__ . '/../templates/titulo.php';  ?>
     </div>
 
-    <p class="titulo">Iniciar Sesión</p>
+    <p class="nombre-pagina text-center">Iniciar Sesión</p>
     <form action="/" method="POST" class="formulario contenedor-sm">
 
         <div class="campo">

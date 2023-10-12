@@ -50,7 +50,9 @@ class LoginController
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
-        $router->render("/index/recuperarPassword", []);
+        $router->render("/index/recuperarPassword", [
+            'titulo' => "Recuperar Password"
+        ]);
     }
 
     public static function reestablecer(Router $router)
