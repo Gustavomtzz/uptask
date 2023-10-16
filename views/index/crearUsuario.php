@@ -8,7 +8,13 @@
 
         <div class="campo">
             <label for="nombre">Nombre</label>
-            <input type="text" name="nombre" id="nombre" placeholder="Tu Nombre" required>
+            <input type="text" name="nombre" id="nombre" placeholder="Tu Nombre">
+        </div>
+
+
+        <div class="campo">
+            <label for="apellido">Apellido</label>
+            <input type="text" name="apellido" id="apellido" placeholder="Tu Apellido" required>
         </div>
 
         <div class="campo">
@@ -22,7 +28,7 @@
         </div>
 
         <div class="campo">
-            <label for="repetirpassword">Password</label>
+            <label for="repetirpassword">Repite Password</label>
             <input type="password" name="repetirpassword" id="repetirpassword" placeholder="Repite tu Password" required>
         </div>
 

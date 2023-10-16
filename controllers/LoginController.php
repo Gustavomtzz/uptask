@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Model\Usuario;
 use MVC\Router;
 
 class LoginController
@@ -36,8 +37,34 @@ class LoginController
 
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        }
+            $usuario = new Usuario($_POST);
+            $usuario->validarDatos();
+            $errores = Usuario::getAlertas();
+            if (empty($errores)) {
 
+                $usuarioPrevio = $usuario->usuarioExiste();
+
+                if ($usuarioPrevio->num_rows === 0) {
+
+                    if ($usuario->password === $_POST['repetirpassword']) {
+                        $usuario->hashPassword();
+                        $usuario->crearToken();
+                        $resultado =  $usuario->guardar();
+
+                        if ($resultado['resultado']) {
+                            header('Location: /');
+                        }
+                    } else {
+                        echo "No son Iguales";
+                    }
+                } else {
+                    $usuario::setAlerta('error', 'Ya existe un usuario registrado.');
+                }
+            } else {
+                debuguear($errores);
+            }
+        }
+        $errores = Usuario::getAlertas();
         $router->render("/index/crearUsuario", [
             'titulo' => "Crear Usuario"
         ]);
