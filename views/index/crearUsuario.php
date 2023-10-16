@@ -1,6 +1,7 @@
 <main class="contenedor">
     <div class="titulo crear">
         <?php include_once __DIR__ . '/../templates/titulo.php'; ?>
+        <?php include_once __DIR__ . '/../templates/alertas.php'; ?>
     </div>
 
     <p class="nombre-pagina text-center">Crea tu cuenta en UpTask</p>

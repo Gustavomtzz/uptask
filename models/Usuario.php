@@ -76,7 +76,7 @@ class Usuario extends ActiveRecord
 
     public function crearToken()
     {
-        $this->token = uniqid();
+        $this->token = md5(uniqid());
     }
 
 
@@ -89,5 +89,11 @@ class Usuario extends ActiveRecord
             self::$alertas['error'][] = "El Usuario ya esta registrado";
         }
         return $resultado;
+    }
+
+    public function redireccionar(string $url)
+    {
+
+        header('Location:' . $url);
     }
 }

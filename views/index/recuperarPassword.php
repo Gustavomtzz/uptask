@@ -1,6 +1,9 @@
 <main>
     <div class="titulo recuperar">
-        <?php include_once __DIR__ . '/../templates/titulo.php';  ?>
+        <?php
+        include_once __DIR__ . '/../templates/titulo.php';
+        include_once __DIR__ . '/../templates/alertas.php';
+        ?>
     </div>
 
     <p class="nombre-pagina text-center">Recupera tu acceso a UpTask</p>

@@ -1,7 +1,12 @@
 <main class="contenedor">
-    <div class="titulo crear">
+    <div class="titulo confirmar">
         <?php include_once __DIR__ . '/../templates/titulo.php'; ?>
     </div>
 
-    <p class="alerta exito"> Hemos enviado un E-mail a tu correo para confirmar la cuenta</p>
+    <?php include_once __DIR__ . '/../templates/alertas.php'; ?>
+
+
+    <div class="acciones confirmar contenedor-sm">
+        <a href="/">¿Ya tienes una cuenta? Iniciar Sesión</a>
+    </div>
 </main>

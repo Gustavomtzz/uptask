@@ -1,0 +1,1 @@
+function eventos(){timeAlertas()}function timeAlertas(){$alerta=document.querySelector("#alerta-index"),setTimeout(()=>{$alerta.style.display="none"},5e3)}document.addEventListener("DOMContentLoaded",()=>{eventos()});
