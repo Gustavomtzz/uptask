@@ -57,6 +57,23 @@ class Usuario extends ActiveRecord
         return self::$alertas;
     }
 
+
+    public function validarLogin()
+    {
+        if (!$this->email) {
+            self::$alertas['error'][] = "El Email del Cliente es Obligatorio";
+        }
+        if (!$this->password) {
+            self::$alertas['error'][] = "El Password del Cliente es Obligatorio";
+        }
+        if (strlen($this->password) < 6) {
+            self::$alertas['error'][] = "El Password debe contener al menos 6 caracteres";
+        }
+        // Validar Campos
+        return self::$alertas;
+    }
+
+
     public function hashPassword()
     {
         if (!empty($this->password)) {
@@ -66,6 +83,7 @@ class Usuario extends ActiveRecord
 
     public function comprobarPassword($passwordHash)
     {
+
         $auth = password_verify($this->password, $passwordHash);
         if (!$auth) {
             self::$alertas['error'][] = 'El Password es incorrecto';

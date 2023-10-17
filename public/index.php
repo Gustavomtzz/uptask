@@ -5,6 +5,7 @@ require_once __DIR__ . '/../includes/app.php';
 
 //IMPORTAR CLASSES
 use MVC\Router;
+use Controllers\AdminController;
 use Controllers\LoginController;
 
 $router = new Router();
@@ -38,6 +39,13 @@ $router->get('/confirmar', [LoginController::class, 'confirmar']);
 
 /*FIN RUTAS INDEX */
 
+
+/**AREA  DASHBOARD  */
+$router->get('/dashboard', [AdminController::class, 'index']);
+
+
+/** AREA ADMINISTRADOR */
+$router->get('/admin', [AdminController::class, 'admin']);
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador

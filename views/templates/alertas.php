@@ -1,6 +1,6 @@
 <?php if (isset($alertas['error'])) : ?>
     <?php foreach ($alertas['error'] as $error) : ?>
-        <div class="alerta-error">
+        <div class="alerta-error" id="alerta-index">
             <i class="fa-solid fa-triangle-exclamation"></i>
             <p class="descripcion-pagina"><?php echo $error ?></p>
         </div>
@@ -8,7 +8,7 @@
 endif; ?>
 <?php if (isset($alertas['exito'])) : ?>
     <?php foreach ($alertas['exito'] as $exito) : ?>
-        <div class="alerta-exito">
+        <div class="alerta-exito" id="alerta-index">
             <i class="fa-regular fa-circle-check" style="color: #007800;"></i>
             <p class="descripcion-pagina"><?php echo $exito ?></p>
         </div>

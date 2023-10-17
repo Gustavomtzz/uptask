@@ -20,6 +20,9 @@ class Router
     public function comprobarRutas()
     {
 
+        $rutasProtegidas = ['/dashboard'];
+        $rutasAdmin = ['/admin'];
+
         $currentUrl = $_SERVER['PATH_INFO'] ?? '/';
         $method = $_SERVER['REQUEST_METHOD'];
 
@@ -29,8 +32,15 @@ class Router
             $fn = $this->postRoutes[$currentUrl] ?? null;
         }
 
+        if (in_array($currentUrl, $rutasProtegidas)) {
+            isAuth();
+        }
+        if (in_array($currentUrl, $rutasAdmin)) {
+            esAdmin();
+        }
 
-        if ( $fn ) {
+
+        if ($fn) {
             // Call user fn va a llamar una función cuando no sabemos cual sera
             call_user_func($fn, $this); // This es para pasar argumentos
         } else {

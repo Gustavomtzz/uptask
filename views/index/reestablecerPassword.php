@@ -8,7 +8,7 @@
     </div>
 
     <p class="nombre-pagina text-center">Restablecer Password</p>
-    <?php if ($form === true) : ?>
+    <?php if ($form) : ?>
         <form method="POST" class="formulario contenedor-sm">
 
             <div class="campo">

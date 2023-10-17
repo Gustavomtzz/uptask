@@ -11,17 +11,55 @@ class LoginController
 
     public static function login(Router $router)
     {
+
         $mensaje = 0;
         if (isset($_GET['mensaje'])) {
             $mensaje = intval($_GET['mensaje']);
         }
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+            $usuario = new Usuario($_POST);
+            $alertas = $usuario->validarLogin();
+
+            if (empty($alertas)) {
+
+                //Verificar si existe el email del Usuario
+                $usuarioDB = Usuario::where('email', $usuario->email);
+
+                if (!empty($usuarioDB)) {
+                    //Verificar Password
+                    $passwordCorrecto = $usuario->comprobarPassword($usuarioDB->password);
+                    if ($passwordCorrecto) {
+                        $confirmado = $usuarioDB->confirmado;
+                        if ($confirmado === "1") {
+                            session_start();
+                            $_SESSION = [];
+                            $_SESSION['nombre'] = "{$usuarioDB->nombre} {$usuarioDB->apellido}";
+                            $_SESSION['login'] = true;
+                            $_SESSION['email'] = $usuarioDB->email;
+                            $_SESSION['usuarioId'] = $usuarioDB->id;
+
+                            //Reedireccionamos
+                            if ($usuarioDB->admin === "1") {
+                                $_SESSION['admin'] = $usuarioDB->admin;
+                                header('Location: /admin');
+                            } else {
+                                header('Location: /dashboard');
+                            }
+                        }
+                    }
+                } else {
+                    Usuario::setAlerta('error', "Usuario inexistente");
+                }
+            }
         }
 
+        $alertas = Usuario::getAlertas();
 
         $router->render("/index/login", [
             'titulo' => "Iniciar Sesión",
-            'mensaje' => $mensaje
+            'mensaje' => $mensaje,
+            'alertas' => $alertas
         ]);
     }
 
@@ -112,15 +150,17 @@ class LoginController
     {
         $alertas = [];
         $token = "";
-        $form = true;
+        $form = false;
 
 
         if (!empty($_GET['token'])) {
             $token = s($_GET['token']);
             $usuario = Usuario::where('token', $token);
-            if (!isset($usuario->id)) {
-                $form = false;
+            if (isset($usuario->id)) {
+                $form = true;
             }
+        } else {
+            Usuario::setAlerta('error', 'TOKEN NO VÁLIDO');
         }
 
 
@@ -141,10 +181,12 @@ class LoginController
                 $alertas = $usuario->validarDatos();
 
                 if (empty($alertas)) {
+
                     $usuario->hashPassword();
                     $usuario->confirmado = 1;
                     $usuario->token = "";
                     $resultado = $usuario->guardar();
+
                     if ($resultado) {
                         $usuario->redireccionar('/?mensaje=3');
                     } else {
@@ -153,7 +195,6 @@ class LoginController
                 }
             } else {
                 Usuario::setAlerta('error', 'TOKEN NO VÁLIDO');
-                $form = false;
             }
         }
 
@@ -185,6 +226,8 @@ class LoginController
         if (!empty($_GET['token'])) {
             $token = s($_GET['token']);
             $usuarioDB = Usuario::where('token', $token);
+        } else {
+            header('Location: /');
         }
 
 
@@ -192,7 +235,7 @@ class LoginController
             $usuarioDB->confirmado = "1";
             $usuarioDB->token = null;
             $usuarioDB->guardar();
-            $usuarioDB::setAlerta('exito', 'Usuario creado correctamente');
+            $usuarioDB::setAlerta('exito', 'Cuenta confirmada correctamente');
         } else {
             Usuario::setAlerta('error', 'TOKEN NO VÁLIDO');
         }
