@@ -123,10 +123,12 @@ class LoginController
         $alertas = [];
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $userEmail = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
             $userEmail = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
             $usuario = Usuario::where('email', $userEmail);
 
-            if (isset($usuario)) {
+
+            if (isset($usuario) && !empty($usuario->confirmado)) {
                 $usuario->crearToken();
                 $usuario->confirmado = 0;
                 $usuario->guardar();

@@ -63,6 +63,9 @@ class Usuario extends ActiveRecord
         if (!$this->email) {
             self::$alertas['error'][] = "El Email del Cliente es Obligatorio";
         }
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            self::$alertas['error'][] = "El Email del Cliente debe ser válido";
+        }
         if (!$this->password) {
             self::$alertas['error'][] = "El Password del Cliente es Obligatorio";
         }

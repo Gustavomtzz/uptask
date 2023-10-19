@@ -42,6 +42,11 @@ $router->get('/confirmar', [LoginController::class, 'confirmar']);
 
 /**AREA  DASHBOARD  */
 $router->get('/dashboard', [AdminController::class, 'index']);
+$router->post('/dashboard', [AdminController::class, 'index']);
+$router->get('/crearproyecto', [AdminController::class, 'crear']);
+$router->post('/crearproyecto', [AdminController::class, 'crear']);
+$router->get('/perfil', [AdminController::class, 'perfil']);
+$router->post('/perfil', [AdminController::class, 'perfil']);
 
 
 /** AREA ADMINISTRADOR */

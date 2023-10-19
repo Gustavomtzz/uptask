@@ -10,7 +10,7 @@
 
         <div class="campo">
             <label for="email">Email</label>
-            <input type="email" name="email" id="email" placeholder="Tu Email" autocomplete="on" required>
+            <input type="email" name="email" id="email" placeholder="Tu Email" autocomplete="on">
         </div>
 
         <div class="campo">
