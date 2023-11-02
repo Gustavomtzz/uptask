@@ -20,7 +20,7 @@ class Router
     public function comprobarRutas()
     {
 
-        $rutasProtegidas = ['/dashboard', '/crearproyecto', '/perfil'];
+        $rutasProtegidas = ['/dashboard', '/crearproyecto', '/perfil', '/proyecto'];
         $rutasAdmin = ['/admin'];
 
         $currentUrl = $_SERVER['PATH_INFO'] ?? '/';

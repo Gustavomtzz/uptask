@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Model\Proyecto;
 use MVC\Router;
 
 
@@ -13,14 +14,16 @@ class AdminController
     {
         $alertas = [];
 
+        $proyectos = Proyecto::belongsTo('propietarioId', $_SESSION['usuarioId']);
+
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
-            debuguear($_POST);
         }
 
         $router->render('/dashboard/index', [
             'titulo' => "Proyectos",
             'contenido' => "proyectos",
-            'alertas' => $alertas
+            'alertas' => $alertas,
+            'proyectos' => $proyectos
         ]);
     }
 
@@ -29,14 +32,30 @@ class AdminController
         $alertas = [];
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
-            debuguear($_POST);
+
+            $proyecto = new Proyecto($_POST);
+            $alertas = $proyecto->validarTitulo();
+
+            if (empty($alertas)) {
+
+                //Crear URL unica
+                $proyecto->url = md5(uniqid());
+                //Asignar el Usuario ID al proyecto
+                $proyecto->propietarioId = $_SESSION['usuarioId'];
+
+                //Guardar Proyecto
+                $proyecto->guardar();
+
+                //Redireccionar
+                header('Location: /proyecto?id=' . $proyecto->url);
+            }
         }
 
 
         $router->render('/dashboard/index', [
             'titulo' => "Crear Proyecto",
-            'contenido' => "crear",
-            'alertas' => $alertas
+            'alertas' => $alertas,
+            'contenido' => "crear"
         ]);
     }
 
@@ -55,5 +74,34 @@ class AdminController
     {
 
         $router->render('/admin/index', []);
+    }
+
+
+    public static function proyecto(Router $router)
+    {
+        $alertas = [];
+        $url = $_GET['id'];
+
+
+        //En caso de que no haya un id;
+        if (!$url) {
+            header('Location: /dashboard');
+        }
+
+
+        //Revisar que la persona que visita el proyecto es quien lo creo.
+        $proyecto = Proyecto::where('url', $url);
+        if ($_SESSION['usuarioId'] !== $proyecto->propietarioId) {
+            header('Location: /dashboard');
+        }
+
+
+
+
+        $router->render('/dashboard/index', [
+            'titulo' => $proyecto->proyecto,
+            'contenido' => "proyecto",
+            'alertas' => $alertas
+        ]);
     }
 }

@@ -5,6 +5,7 @@ require_once __DIR__ . '/../includes/app.php';
 
 //IMPORTAR CLASSES
 use MVC\Router;
+use Controllers\ApiController;
 use Controllers\AdminController;
 use Controllers\LoginController;
 
@@ -41,17 +42,30 @@ $router->get('/confirmar', [LoginController::class, 'confirmar']);
 
 
 /**AREA  DASHBOARD  */
+//INDICE
 $router->get('/dashboard', [AdminController::class, 'index']);
 $router->post('/dashboard', [AdminController::class, 'index']);
+//Crear Nuevo Proyecto
 $router->get('/crearproyecto', [AdminController::class, 'crear']);
 $router->post('/crearproyecto', [AdminController::class, 'crear']);
+//Perfil Usuario
 $router->get('/perfil', [AdminController::class, 'perfil']);
 $router->post('/perfil', [AdminController::class, 'perfil']);
+
+// URL del PROYECTO CREADO
+$router->get('/proyecto', [AdminController::class, 'proyecto']);
 
 
 /** AREA ADMINISTRADOR */
 $router->get('/admin', [AdminController::class, 'admin']);
 
+/**Fin AREA DASHBOARD */
+
+/** API TAREAS */
+$router->get('/api/tarea', [ApiController::class, 'index']);
+$router->post('/api/tarea', [ApiController::class, 'guardar']);
+$router->post('/api/tarea/actualizar', [ApiController::class, 'actualizar']);
+$router->post('/api/tarea/eliminar', [ApiController::class, 'eliminar']);
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
 $router->comprobarRutas();
