@@ -63,7 +63,8 @@ $router->get('/admin', [AdminController::class, 'admin']);
 
 /** API TAREAS */
 $router->get('/api/tarea', [ApiController::class, 'index']);
-$router->post('/api/tarea', [ApiController::class, 'guardar']);
+$router->post('/api/tarea/crear', [ApiController::class, 'guardar']);
+$router->get('/api/tarea/actualizar', [ApiController::class, 'actualizar']);
 $router->post('/api/tarea/actualizar', [ApiController::class, 'actualizar']);
 $router->post('/api/tarea/eliminar', [ApiController::class, 'eliminar']);
 
